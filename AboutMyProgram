@@ -1,0 +1,82 @@
+from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QLabel, QLineEdit
+from PyQt6.QtGui import QFont
+from PyQt6.QtCore import Qt
+import sys
+import menu
+
+
+class AboutMyProgram(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUi()
+
+    def initUi(self):
+        # Экран
+        self.setWindowTitle("CineSwap — Вход")
+        self.resize(700, 500)
+
+        screen = QApplication.primaryScreen().availableGeometry()
+        self.move(
+            (screen.width() - self.width()) // 2,
+            (screen.height() - self.height()) // 2
+        )
+
+        layout = QGridLayout()
+        layout.setSpacing(20)
+        layout.setContentsMargins(60, 70, 60, 50)
+        self.setLayout(layout)
+
+        self.text = QLabel()
+        self.text.setText("""CineSwap
+Версия [укажите версию]
+
+© 2025 ООО «КиноСвоп». Все права защищены.
+Настоящее программное обеспечение, включая все связанные графические элементы, логотипы, 
+тексты и функциональные компоненты, является объектом авторского права и принадлежит ООО «КиноСвоп».
+
+Любое копирование, воспроизведение, распространение, 
+модификация или иное использование материалов без письменного разрешения правообладателя запрещено.
+
+Разработано и поддерживается ООО «КиноСвоп».
+ИНН: [укажите ИНН при необходимости]
+ОГРН: [укажите ОГРН при необходимости]
+Юридический адрес: [укажите адрес при необходимости]""")
+        layout.addWidget(self.text)
+
+        # Кнопка назад
+        self.back_btn = QPushButton("← Назад", self)
+        self.back_btn.setFont(QFont("Segoe UI", 11))
+        self.back_btn.setStyleSheet("""
+            QPushButton {
+                background-color: transparent;
+                color: #2c3e50;
+                border: none;
+                padding: 6px 10px;
+            }
+            QPushButton:hover {
+                color: #e74c3c;
+                background-color: rgba(231, 76, 60, 0.1);
+                border-radius: 4px;
+            }
+        """)
+        self.back_btn.move(15, 15)
+
+        # Логика кнопок
+        self.back_btn.clicked.connect(self.back)
+
+    def back(self):
+        self.menuWin = menu.MenuWindow()
+        self.menuWin.show()
+        self.close()
+
+
+app = QApplication(sys.argv)
+app.setStyleSheet("""
+    QWidget {
+        background-color: white;
+        font-family: "Segoe UI", "Roboto", sans-serif;
+    }
+""")
+win = AboutMyProgram()
+win.show()
+sys.exit(app.exec())
